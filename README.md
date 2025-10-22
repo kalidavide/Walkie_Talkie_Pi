@@ -94,7 +94,7 @@ This diagram shows the full system architecture, including hardware and software
 
 ## Getting Started
 
-This guide walks you through preparing the microSD, first boot, enabling remote access, installing the core software, bringing up audio and mesh networking, and enabling push-to-talk and fallback behavior. Where configuration is required, refer to the **sample files in this repository** instead of copying inline snippets.
+This guide walks you through preparing the complete system. Where configuration is required, refer to the **sample files in this repository** instead of copying inline snippets.
 
 ---
 
