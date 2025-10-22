@@ -1,13 +1,12 @@
 # Walkie-Talkie Pi Zero  
 *Developed by Davide Bossi (TEKO Zürich, 2025)*  
-Licensed under the **MIT License**
 
 ---
 
 ## Overview
 
 **Walkie-Talkie Pi Zero** is a decentralized, push-to-talk voice communication system built entirely on open-source software and low-cost Raspberry Pi hardware.  
-Each node combines a Raspberry Pi Zero 2 WH with a WM8960 Audio HAT and connects to others through a self-organizing WLAN mesh network using **BATMAN-adv**.  
+Each node combines a Raspberry Pi Zero 2 WH with a WM8960 Audio HAT and connects to others through a self-organizing WLAN mesh network using **batman-adv**.  
 This setup enables local, encrypted voice communication **without any central server or Internet access**.  
 
 The project was created as part of a diploma thesis at TEKO Zürich, demonstrating that fully autonomous digital voice systems can be realized with simple components and Linux-based software.
@@ -19,7 +18,7 @@ The project was created as part of a diploma thesis at TEKO Zürich, demonstrati
 - 🗣️ Encrypted voice communication via **Mumble VoIP**
 - 🔁 Automatic **server fallback and reconnection**
 - 🔊 Hardware-based **push-to-talk (PTT)** button
-- 📶 Layer-2 **mesh networking** with BATMAN-adv
+- 📶 Layer-2 **mesh networking** with batman-adv
 - ⚙️ Fully automated **systemd-based startup**
 - 🔋 Runs on battery-powered Raspberry Pi Zero 2 WH
 - 🌐 Operates completely offline
@@ -28,7 +27,7 @@ The project was created as part of a diploma thesis at TEKO Zürich, demonstrati
 
 ## How It Works
 
-Each node runs both a **Mumble Server (murmurd)** and a **Mumble Client**.  
+Each node runs both a **Mumble Server** and a **Mumble Client**.  
 At startup, the node joins the mesh network, launches the VoIP services, and connects automatically to the primary server.  
 If that server goes offline, a Python fallback script reconnects the client to the next reachable node.  
 The PTT service controls audio capture at the ALSA layer through PulseAudio: the microphone is only active while the hardware button is pressed.
@@ -42,6 +41,7 @@ The PTT service controls audio capture at the ALSA layer through PulseAudio: the
 | **Raspberry Pi Zero 2 WH** | Core single-board computer |
 | **WM8960 Audio HAT** | Integrated sound card, microphone & speaker |
 | **USB Wi-Fi Adapter** | Dedicated mesh interface (Ad-Hoc / 802.11s mode) |
+| **USB On-The-Go Adapter (USB OTG)** | Adapter for Wi-Fi |
 | **Micro SD Card (32–128 GB)** | System storage |
 | **Power Bank ≥ 2 A output** | Portable power supply |
 | **PTT Button (GPIO 17)** | Activates microphone while pressed |
@@ -54,7 +54,7 @@ The PTT service controls audio capture at the ALSA layer through PulseAudio: the
 |--------|------------|-------------|
 | **Application** | Mumble Client + Server | Encrypted VoIP communication |
 | **Audio** | PulseAudio → ALSA | Sound routing and device control |
-| **Mesh Networking** | BATMAN-adv | Layer-2 routing between nodes |
+| **Mesh Networking** | batman-adv | Layer-2 routing between nodes |
 | **Control** | Python Scripts + systemd Units | PTT control, fallback, autostart |
 | **Time Sync** | chrony | Local NTP across mesh nodes |
 | **OS** | Raspberry Pi OS (32-bit) | Base operating system |
@@ -63,10 +63,10 @@ The PTT service controls audio capture at the ALSA layer through PulseAudio: the
 
 ## Network Concept
 
-- **Mesh Network (bat0):** 10.30.5.0/24  
-  - pi-node-1 → 10.30.5.10  
-  - pi-node-2 → 10.30.5.20  
-  - pi-node-3 → 10.30.5.30  
+- **Mesh Network (bat0 on wlan1):** 10.30.5.0/24
+  - pi-node-1 → 10.30.5.10
+  - pi-node-2 → 10.30.5.20
+  - pi-node-3 → 10.30.5.30
 - **Optional Management Network (wlan0):** 172.30.5.0/24 (development only)
 
 ---
@@ -158,36 +158,6 @@ Enable as systemd service (`mesh.service`).
 
 ---
 
-## Repository Structure
-
-```
-/docs/
-  Walkie_Talkie_Pi_Zero_Final.pdf
-  network-topology.png
-  audio-flow.png
-/scripts/
-  mesh-setup.sh
-  ptt.py
-  mumble-autostart.sh
-  mumble_fallback.py
-/systemd/
-  mesh.service
-  ptt.service
-  mumble-client.service
-/config/
-  mumble-server.ini.sample
-  bat-hosts.sample
-  chrony.conf.sample
-/tests/
-  test-cases.md
-  measurements.md
-  field-photos/
-LICENSE
-README.md
-```
-
----
-
 ## Known Issues
 
 - Limited WLAN range (~60 m line of sight).  
@@ -209,7 +179,7 @@ README.md
 
 ## License
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License**
 
 ---
 
