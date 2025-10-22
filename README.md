@@ -73,7 +73,7 @@ The PTT service controls audio capture at the ALSA layer through PulseAudio: the
 
 ## System Architecture
 
-![System Architecture](https://raw.githubusercontent.com/kalidavide/Walkie_Talkie_Pi/main/images/system_architecture.png)
+![System Architecture](https://github.com/kalidavide/Walkie_Talkie_Pi/blob/main/images/system_architecture.png?raw=true)
 
 This diagram shows the full system architecture, including hardware and software components used to build the VoIP mesh network.
 
