@@ -79,57 +79,6 @@ This diagram shows the full system architecture, including hardware and software
 
 ---
 
-## Getting Started
-
-### 1️⃣ Prepare the Raspberry Pi
-1. Flash **Raspberry Pi OS (32-bit)** to the SD card using Raspberry Pi Imager.  
-2. Enable SSH and VNC (optional).  
-3. Boot the Pi and run:  
-   ```bash
-   sudo apt update && sudo apt upgrade -y
-   ```
-
-### 2️⃣ Enable the WM8960 Audio HAT
-Edit `/boot/firmware/config.txt`:  
-```bash
-dtparam=i2c_arm=on
-dtparam=i2s=on
-dtparam=audio=off
-dtoverlay=wm8960-soundcard
-```
-
-### 3️⃣ Install Core Packages
-```bash
-sudo apt install -y batctl mumble mumble-server alsa-utils pulseaudio chrony python3
-```
-
-### 4️⃣ Set Up the Mesh Network
-Example `mesh-setup.sh`:
-```bash
-#!/bin/bash
-ip link set wlan1 down
-iwconfig wlan1 mode ad-hoc
-iwconfig wlan1 essid WalkieMesh
-iwconfig wlan1 channel 1
-ip link set wlan1 up
-modprobe batman-adv
-batctl if add wlan1
-ip link set up dev bat0
-ip addr add 10.30.5.10/24 dev bat0
-```
-Enable as systemd service (`mesh.service`).
-
-### 5️⃣ Add PTT and Fallback Services
-- **ptt.py:** controls recording via GPIO → ALSA → PulseAudio  
-- **mumble_fallback.py:** switches client to next server if connection drops  
-- Install and enable services:  
-  ```bash
-  sudo systemctl enable --now ptt.service
-  sudo systemctl enable --now mumble-client.service
-  ```
-
----
-
 ## Configuration Files
 
 | File | Purpose |
@@ -140,6 +89,216 @@ Enable as systemd service (`mesh.service`).
 | `/usr/local/bin/mesh-setup.sh` | Mesh initialization script |
 | `/etc/systemd/system/*.service` | Autostart unit files |
 | `/etc/chrony/chrony.conf` | Local time sync |
+
+---
+
+## Getting Started
+
+This guide walks you through preparing the microSD, first boot, enabling remote access, installing the core software, bringing up audio and mesh networking, and enabling push-to-talk and fallback behavior. Where configuration is required, refer to the **sample files in this repository** instead of copying inline snippets.
+
+---
+
+###
+For a complete, step‑by‑step explanation of the installation, configuration, and testing process — including screenshots, command examples, and troubleshooting — please refer to the **Diploma Thesis (PDF)** included in this repository.
+
+The detailed documentation describes:
+- Preparing and flashing the microSD card using Raspberry Pi Imager  
+- Initial OS setup, SSH/VNC access, and static IP assignment  
+- Installing and verifying the WM8960 Audio HAT  
+- Integrating the Push‑to‑Talk function and Mumble VoIP services  
+- Setting up Autostart, Fallback, and Mesh Networking  
+- Time synchronisation with Chrony and system validation tests  
+
+📄 **Reference:** see `/docs/Walkie_Talkie_Pi_Zero_Final.pdf` (Diploma Thesis)  
+This document contains the full procedural guide, configuration screenshots, and complete testing documentation complementing this README.
+
+---
+
+### 0. Prerequisites (workstation & tools)
+
+- A computer with a **microSD card reader** (or adapter)
+- **Raspberry Pi Imager** installed on the workstation  
+  - Download from the official site or your OS package manager  
+- (Recommended) **RealVNC Viewer** on the workstation for GUI access to the Pi after first boot
+- A stable power source for the Pi
+- Optional: your Wi-Fi SSID/Passphrase for development (for the Management WLAN)
+
+---
+
+### 1. Prepare the microSD (Raspberry Pi Imager)
+
+1. Insert the microSD into your workstation and start **Raspberry Pi Imager**.  
+2. Select:
+   - **Device:** Raspberry Pi Zero 2 W
+   - **OS:** *Raspberry Pi OS (32-bit with Desktop)*
+   - **Storage:** your microSD (up to 256 GB)
+3. Click **Next** → **OS customisation**:
+   - Set **hostname** (e.g. `pi-node-1`)
+   - Create your **user & password**
+   - Optionally preconfigure **Wi-Fi** (Management WLAN for development only)
+   - **Enable SSH** (password auth is fine in a lab network)
+   - Optional comfort settings (eject media after write, sound on completion)
+4. Confirm the overwrite warning and start writing.
+
+---
+
+### 2. First boot & remote access
+
+1. Insert the microSD into the **Raspberry Pi Zero 2 WH** and power on.  
+   The very first boot may take a bit longer.
+2. From your workstation:
+   - **SSH**: `ssh <user>@pi-node-1.local`
+   - **VNC** (optional, for GUI): enable via `raspi-config` or the Imager preset
+
+> For a predictable lab: assign a **static IPv4** during development (NetworkManager). Use the approach described in the thesis.
+
+---
+
+### 3. System update
+
+Keep the base OS current:
+
+```bash
+sudo apt update && sudo apt upgrade -y
+```
+
+If prompted to replace default config files by the maintainer versions, choose the maintainer defaults unless you know you changed those files intentionally.
+
+---
+
+### 4. Enable the WM8960 Audio HAT
+
+1. **Power off** the Pi before mounting the HAT. Attach the speakers to the HAT terminals.  
+2. Boot the Pi.
+3. Enable the device-tree overlay and I²C/I²S, with editing the config.txt file.
+4. Reboot the Pi
+
+> Edit `/boot/firmware/config.txt`:  
+```bash
+dtparam=i2c_arm=on
+dtparam=i2s=on
+dtparam=audio=off
+dtoverlay=wm8960-soundcard
+```
+> After reboot, verify devices: `aplay -l`, `arecord -l`; adjust levels in `alsamixer`.
+
+**Useful checks**
+- `dmesg | grep -i wm8960` — driver messages  
+- `cat /proc/asound/cards` — card listing should show the WM8960
+
+---
+
+### 5. Install core software
+
+Install the software stack (mesh tools, VoIP, audio utils, time sync, Python runtime). Package names follow Raspberry Pi OS Bookworm repositories.
+```bash
+sudo apt install -y batctl mumble mumble-server alsa-utils pulseaudio chrony python3
+```
+
+---
+
+### 6. Push-to-Talk (PTT)
+
+PTT keeps the microphone **muted by default** and only enables capture while the hardware button is pressed.
+
+- Environment sample (GPIO & mixer control): **`/config/ptt.env`** → copy to `/etc/walkietalkie/ptt.env`
+- Controller script: **`/scripts/ptt.py`** → copy to `/usr/local/bin/ptt.py`
+- Service unit: **`/systemd/ptt.service`** → copy to `/etc/systemd/system/ptt.service`
+
+> The controller toggles ALSA capture via PulseAudio. If you use a different GPIO or control name, set them in the env file.
+> Do not forget to enable the ptt.service with:```bash sudo systemctl enable --now ptt.service```
+
+---
+
+### 7. Mumble (VoIP): server, client and autostart, fallback
+
+- Install **server + client**. Run the **Audio Wizard** once via VNC.  
+- Optional server settings (welcome text, user limit): **`/config/mumble-server.ini`**  
+- **Autostart (optional helper)**: **`/scripts/mumble-autostart.sh`**  
+- **Fallback controller** (keeps client on the first reachable server): **`/scripts/mumble_fallback.py`**  
+- **Service unit**: **`/systemd/mumble-client.service`**
+
+> The fallback script expects a server list (prefer mesh IPs on `bat0`). On first connect to a new IP, accept the certificate warning once via VNC.
+
+---
+
+### 8. Mesh networking (batman-adv)
+
+The mesh runs on a **dedicated Wi-Fi adapter** (e.g. `wlan1`) in **Ad-Hoc** mode and is bridged into **batman-adv** (Layer 2) as `bat0`. Each node gets a **static IP on `bat0`** (e.g. `10.30.5.10/24`, `10.30.5.20/24`, `10.30.5.30/24`).
+
+#### Steps
+
+1. **Unmanage `wlan1`** in NetworkManager so scripts can control it.  
+   (Create a small NM keyfile override as described in `disable-wlan1.conf`.)
+2. Use the provided **bring-up script** and **systemd unit** to initialise the mesh:
+   - Script: **`/scripts/mesh-setup.sh`**  
+   - Unit: **`/systemd/mesh.service`**
+3. Optionally maintain readable mesh hostnames:  
+   - Sample: **`/config/bat-hosts`** → copy to `/etc/bat-hosts`
+
+> The script takes care of setting the mode, ESSID, channel, loading `batman-adv`, and assigning the IP to `bat0`. Adjust per node IPs before enabling the unit.
+
+**Diagnostics**
+- Neighbors: `sudo batctl n`  
+- Mesh ping: `sudo batctl ping <bat0-IP>`  
+- Path: `sudo batctl tr <bat0-IP>`
+
+
+---
+
+### 9. Local time sync (Chrony)
+
+- Make **`pi-node-1`** the local mesh time source (stratum 10).  
+- Point the other nodes to it.
+
+Use the samples:
+- **Server**: `/config/chrony/chrony.server.conf` on `pi-node-1`  
+- **Client**: `/config/chrony/chrony.client.conf` on the other nodes
+
+Verify with `chronyc tracking` and `chronyc sources -v`.
+
+---
+
+### 10. Enable the services
+
+Reload units and enable the core services:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now mesh.service
+sudo systemctl enable --now ptt.service
+systemctl --user enable --now mumble-client.service
+```
+
+If you also run a local server on each node, ensure `mumble-server.service` is enabled.
+
+---
+
+### 11. Sanity checks
+
+- **Mesh**  
+  `sudo batctl n` — neighbors present  
+  `sudo batctl ping 10.30.5.20` — ping a peer over the mesh  
+  `sudo batctl tr 10.30.5.30` — see the path to another node
+- **Audio**  
+  `arecord -l`, `aplay -l` — devices visible  
+  `alsamixer` — PCM and capture not muted; adjust levels as required
+- **PTT**  
+  Press the button and watch capture toggle; e.g.  
+  `watch -n 0.3 "amixer sget Capture | grep -E '\[(on|off)\]'"`  
+- **Services**  
+  `systemctl status mesh.service ptt.service mumble-client.service`  
+- **Time**  
+  `chronyc tracking` — consistent across nodes
+
+---
+
+### 12. Replicate for all nodes
+
+Repeat the steps for **`pi-node-2`** and **`pi-node-3`**:
+- Unique hostnames and **node-specific `bat0` IPs**
+- Accept certificates once per new server IP if prompted
+- Keep Management WLAN disabled in field mode; operate on mesh only
 
 ---
 
