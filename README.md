@@ -1,11 +1,11 @@
-# Walkie-Talkie Pi Zero  
+# Walkie-Talkie Pi
 *Developed by Davide Bossi (TEKO Zürich, 2025)*  
 
 ---
 
 ## Overview
 
-**Walkie-Talkie Pi Zero** is a decentralized, push-to-talk voice communication system built entirely on open-source software and low-cost Raspberry Pi hardware.  
+**Walkie-Talkie Pi** is a decentralized, push-to-talk voice communication system built entirely on open-source software and low-cost Raspberry Pi hardware.  
 Each node combines a Raspberry Pi Zero 2 WH with a WM8960 Audio HAT and connects to others through a self-organizing WLAN mesh network using **batman-adv**.  
 This setup enables local, encrypted voice communication **without any central server or Internet access**.  
 
