@@ -7,7 +7,7 @@
 
 **Walkie-Talkie Pi** is a decentralized, push-to-talk voice communication system built entirely on open-source software and low-cost Raspberry Pi hardware.  
 Each node combines a Raspberry Pi Zero 2 WH with a WM8960 Audio HAT and connects to others through a self-organizing WLAN mesh network using **batman-adv**.  
-This setup enables local, encrypted voice communication **without any central server or Internet access**.  
+This setup enables local, encrypted voice communication **without any central router or Internet access**.  
 
 The project was created as part of a diploma thesis at TEKO Zürich, demonstrating that fully autonomous digital voice systems can be realized with simple components and Linux-based software.
 
