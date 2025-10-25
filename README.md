@@ -79,19 +79,6 @@ This diagram shows the full system architecture, including hardware and software
 
 ---
 
-## Configuration Files
-
-| File | Purpose |
-|------|----------|
-| `/etc/mumble-server.ini` | Local Mumble Server settings |
-| `/usr/local/bin/ptt.py` | GPIO PTT script |
-| `/usr/local/bin/mumble_fallback.py` | Server failover logic |
-| `/usr/local/bin/mesh-setup.sh` | Mesh initialization script |
-| `/etc/systemd/system/*.service` | Autostart unit files |
-| `/etc/chrony/chrony.conf` | Local time sync |
-
----
-
 ## Getting Started
 
 This guide walks you through preparing the complete system. Where configuration is required, refer to the **sample files in this repository** instead of copying inline snippets.
