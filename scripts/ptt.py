@@ -1,3 +1,6 @@
+# Create file with: sudo nano /usr/local/bin/ptt.py
+# After saving, make the script executable: sudo chmod +x /usr/local/bin/ptt.py
+
 #!/usr/bin/env python3
 import os
 import RPi.GPIO as GPIO
