@@ -1,0 +1,14 @@
+# create file with: sudo nano /etc/systemd/system/mesh.service
+
+[Unit]
+Description=Mesh Netzwerk (batman-adv) konfigurieren
+After=network.target
+Wants=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/mesh-setup.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
