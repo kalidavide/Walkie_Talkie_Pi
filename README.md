@@ -283,7 +283,7 @@ If you also run a local server on each node, ensure `mumble-server.service` is e
 ### 12. Replicate for all nodes
 
 Repeat the steps for **`pi-node-2`** and **`pi-node-3`**:
-- Unique hostnames and **node-specific `bat0` IPs**
+- Unique hostnames, usernames and **node-specific `bat0` IPs**
 - Accept certificates once per new server IP if prompted
 - Keep Management WLAN disabled in field mode; operate on mesh only
 
