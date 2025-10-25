@@ -314,19 +314,19 @@ Repeat the steps for **`pi-node-2`** and **`pi-node-3`**:
 
 ## Known Issues
 
-- Limited WLAN range (~60 m line of sight).  
-- Slight latency when reconnecting after fallback.  
-- Not optimized for high traffic or more than 5 nodes.  
+- Limited WLAN range (~60 m line of sight) with on Hop.
+- Slight latency when reconnecting after fallback.
+- Not optimized for high traffic or more than 5 nodes.
 - Powerbank auto-shutdown must be disabled.
 
 ---
 
 ## Future Improvements
 
-- Add LoRa or other long-range modules.  
-- Integrate status display (OLED / TFT).  
-- Design mechanical enclosure for field use.  
-- Expand mesh to > 10 nodes for stress testing.  
+- Add LoRa or other long-range modules to increase range.
+- Integrate status display (OLED / TFT).
+- Design mechanical enclosure for field use.
+- Expand mesh to > 10 nodes for stress testing.
 - Harden system for outdoor operation.
 
 ---
