@@ -1,0 +1,15 @@
+# create file with: sudo nano /etc/systemd/system/ptt.service
+# After saving, activate service with: sudo systemctl daemon-reload && sudo systemctl enable --now ptt.service
+
+[Unit]
+Description=Push-to-Talk GPIO Service
+After=multi-user.target
+
+[Service]
+ExecStartPre=/usr/bin/amixer -c 1 sset Capture nocap
+ExecStart=/usr/local/bin/ptt.py
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
