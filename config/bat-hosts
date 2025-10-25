@@ -1,0 +1,6 @@
+# this file is a translation table from MAC address to hostname in the Mesh-Network
+# create the file with: sudo nano /etc/bat-hosts
+
+1c:0c:44:00:37:f0	pi-node-1
+08:da:35:df:f4:41	pi-node-2
+6c:fd:b9:b5:cd:ff	pi-node-3
