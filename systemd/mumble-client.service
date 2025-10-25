@@ -1,0 +1,13 @@
+[Unit]
+Description=Mumble Client Autostart (User)
+After=graphical-session.target network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/home/user01/mumble-autostart.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
