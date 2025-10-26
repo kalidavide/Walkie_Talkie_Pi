@@ -86,7 +86,7 @@ This guide walks you through preparing the complete system. Where configuration 
 ---
 
 ###
-For a complete, step‑by‑step explanation of the installation, configuration, and testing process — including screenshots, command examples, and troubleshooting — please refer to the **Diploma Thesis (PDF)** included in this repository.
+For a complete, step‑by‑step explanation of the installation, configuration, and testing process — including screenshots, command examples, and troubleshooting — please refer to the **Walkie_Talkie_Pi (PDF)** included in this repository.
 
 The detailed documentation describes:
 - Preparing and flashing the microSD card using Raspberry Pi Imager  
@@ -96,7 +96,7 @@ The detailed documentation describes:
 - Setting up Autostart, Fallback, and Mesh Networking  
 - Time synchronisation with Chrony and system validation tests  
 
-📄 **Reference:** see `/docs/Walkie_Talkie_Pi_Zero_Final.pdf` (Diploma Thesis)  
+📄 **Reference:** see `/docs/Walkie_Talkie_Pi.pdf` (Diploma Thesis) only available in german!
 This document contains the full procedural guide, configuration screenshots, and complete testing documentation complementing this README.
 
 ---
