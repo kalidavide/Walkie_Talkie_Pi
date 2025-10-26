@@ -1,0 +1,58 @@
+<mxfile host="Electron" modified="2025-10-12T18:37:03.619Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.2.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="M58T_xBU2EYagNDIOqXD" version="24.2.5" type="device">
+  <diagram name="Page-1" id="2a216829-ef6e-dabb-86c1-c78162f3ba2b">
+    <mxGraphModel dx="1434" dy="964" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="7a84cebc1def654-1" value="&amp;nbsp; &amp;nbsp;TLS Stream trifft&lt;br&gt;&amp;nbsp; &amp;nbsp;auf Client" style="shape=mxgraph.bpmn.shape;html=1;verticalLabelPosition=middle;labelBackgroundColor=none;verticalAlign=middle;perimeter=ellipsePerimeter;outline=standard;symbol=general;labelPosition=right;align=left;" parent="1" vertex="1">
+          <mxGeometry x="140" y="30" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="7a84cebc1def654-2" value="Mumble-Client entschlüsselt und dekodiert" style="shape=ext;rounded=1;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="110" y="105" width="109.99999999999999" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="7a84cebc1def654-3" value="Mumble übergibt PCM an ALSA" style="shape=ext;rounded=1;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="110" y="198" width="109.99999999999999" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="7a84cebc1def654-8" value="ALSA Playback übergibt an WM8960" style="shape=ext;rounded=1;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="260" y="198" width="109.99999999999999" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="7a84cebc1def654-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;" parent="1" source="7a84cebc1def654-1" target="7a84cebc1def654-2" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7a84cebc1def654-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;" parent="1" source="7a84cebc1def654-2" target="7a84cebc1def654-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d2HoR_rY1_GPFjVi6Aux-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="7a84cebc1def654-3" target="7a84cebc1def654-8" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="220" y="228" as="sourcePoint" />
+            <mxPoint x="555" y="405" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="d2HoR_rY1_GPFjVi6Aux-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="7a84cebc1def654-8" target="EpSPwWGNEqxVYRfIP7wK-5" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="545" as="sourcePoint" />
+            <mxPoint x="555" y="615" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="d2HoR_rY1_GPFjVi6Aux-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="165" y="444" as="sourcePoint" />
+            <mxPoint x="165" y="444" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EpSPwWGNEqxVYRfIP7wK-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="EpSPwWGNEqxVYRfIP7wK-5" target="EpSPwWGNEqxVYRfIP7wK-12" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="165" y="540" as="sourcePoint" />
+            <mxPoint x="165" y="595" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EpSPwWGNEqxVYRfIP7wK-5" value="WM8960 empfängt und gibt Audio aus" style="shape=ext;rounded=1;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="110" y="310" width="109.99999999999999" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="EpSPwWGNEqxVYRfIP7wK-12" value="Audioausgabe&lt;br&gt;über Lautsprecher" style="points=[[0.145,0.145,0],[0.5,0,0],[0.855,0.145,0],[1,0.5,0],[0.855,0.855,0],[0.5,1,0],[0.145,0.855,0],[0,0.5,0]];shape=mxgraph.bpmn.event;html=1;verticalLabelPosition=bottom;labelBackgroundColor=none;verticalAlign=top;align=center;perimeter=ellipsePerimeter;outlineConnect=0;aspect=fixed;outline=end;symbol=terminate;" parent="1" vertex="1">
+          <mxGeometry x="140" y="400" width="50" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
