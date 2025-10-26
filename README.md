@@ -297,6 +297,9 @@ Repeat the steps for **`pi-node-2`** and **`pi-node-3`**:
 4. If the primary server goes down, the client switches to a backup node.  
 5. When the primary returns, it reconnects automatically.
 
+See also the detailed user guide in the repository  
+**Walkie_Talkie_Pi_Bedienungsanleitung.pdf** for complete setup and operating instructions.
+
 ---
 
 ## Troubleshooting & Diagnostics
